@@ -1,11 +1,13 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import GetData from './src/component/GetData';
+import { StyleSheet, View } from 'react-native';
+import ClipBoard from './src/component/ClipBoard';
 
 export default class App extends React.Component {
   render() {
     return (
-      <GetData />
+      <View style={styles.container}>
+        <ClipBoard />
+      </View>
     );
   }
 }

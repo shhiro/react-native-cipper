@@ -13,7 +13,6 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     button: {
-        flex:1,
         backgroundColor: '#008000',
         marginLeft:10,
         alignItems: 'center',
@@ -29,23 +28,26 @@ const styles = StyleSheet.create({
 
 
 
-export default class GetData extends Component <{}> {
-    _onPress = async () => {
+export default class Index extends Component <{}> {
+  state= {
+    text:'でふぉ',
+  };
+
+  _onPress = async () => {
         console.log('aaa',this.text);
         console.log(await Clipboard.getString());
         const cbText = await Clipboard.getString();
         this.setState({
             text: cbText,
         })
-        console.log('this.text=',this.text);      
-    }
-    state= {
-        text:'でふぉ',
-    }
+        console.log('this.text=',this.text);
+  };
+
     render() {
         return (
             <View style={styles.container}>
                 <TouchableOpacity style={styles.button} onPress={this._onPress}>
+                  <Text style={{ color: 'white', }}>ボタン</Text>
                 </TouchableOpacity>
                 <Text>{this.state.text}</Text>
             </View>
