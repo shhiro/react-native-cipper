@@ -5,52 +5,81 @@ import {
     Text,
     StyleSheet,
     Clipboard,
+    ScrollView,
 } from 'react-native';
 
 const styles = StyleSheet.create({
     container: {
-        flexDirection: 'row',
         padding: 20,
     },
     button: {
         backgroundColor: '#008000',
-        marginLeft:10,
         alignItems: 'center',
-        justifyContent: 'center',
-        paddingTop: 10,
-        paddingBottom: 10,
+        height: 25,
+        margin: 3,
+        borderRadius: 10,
     },
     buttonText: {
         color: '#FFF',
-        fontWeight: '300',
-    }
+        fontSize: 20,        
+    },
+    outText: {
+        fontWeight: 'bold',
+        fontSize: 20,
+        textAlign: 'center',
+        borderWidth: 1,
+    },
 });
 
 
 
 export default class Index extends Component <{}> {
   state= {
-    text:'でふぉ',
+    text:'ここにクリップボードの中身が表示されます',
   };
 
   _onPress = async () => {
-        console.log('aaa',this.text);
-        console.log(await Clipboard.getString());
-        const cbText = await Clipboard.getString();
+    console.log(await Clipboard.getString());
+    const cbText = await Clipboard.getString();
+    const cbTextFail = 'クリップボードが空です。何かコピーしてください';
+    if(cbText == ''){
+        this.setState({
+            text: cbTextFail,
+        })
+    } else {
         this.setState({
             text: cbText,
         })
-        console.log('this.text=',this.text);
+    }
+    console.log('this.text=', this.text);
   };
+
+  _onClear = async () => {
+    await Clipboard.setString('');
+    const cbText = 'クリップボードの中身をクリアしました'
+    this.setState({
+        text: cbText,
+    })
+    console.log('clearedText=', this.text);
+  }
 
     render() {
         return (
-            <View style={styles.container}>
-                <TouchableOpacity style={styles.button} onPress={this._onPress}>
-                  <Text style={{ color: 'white', }}>ボタン</Text>
-                </TouchableOpacity>
-                <Text>{this.state.text}</Text>
-            </View>
+            <ScrollView showsVerticalScrollIndicator={false}>
+                <View style={styles.container}>
+                    <View style={styles.button}>
+                        <TouchableOpacity onPress={this._onPress}>
+                            <Text style={styles.buttonText}>クリップボードの中身表示</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.button}>
+                        <TouchableOpacity onPress={this._onClear}>
+                            <Text style={styles.buttonText}>クリップボードクリア</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <Text style={styles.outText}>{this.state.text}</Text>
+                </View>
+            </ScrollView>
         );
     }
 }
